@@ -1,0 +1,46 @@
+﻿@model IPagedList<Banners.Models.ViewModels.ShowBannerStatViewModel>
+
+@using Banners.Shared.Configurations
+@using X.PagedList
+@using X.PagedList.Mvc.Core;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers;
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Banner</th>
+            <th>Date</th>
+            <th>Hour</th>
+            <th>Impressions</th>
+            <th>Clicks</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Banner.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Impressions)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Clicks)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", "BannerStats", 
+    new { Page = page }),
+    new X.PagedList.Web.Common.PagedListRenderOptions {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+})

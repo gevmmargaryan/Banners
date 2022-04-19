@@ -1,0 +1,67 @@
+﻿@using Banners.Shared.Configurations
+@using X.PagedList
+@model IPagedList<Banners.Models.ViewModels.ShowBannerViewModel>
+
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-10"><h4>Banners</h4></div>
+    <div class="col-2 text-right"><a asp-action="Create">Create New Baner</a></div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>ImageURL</th>
+            <th>LinkURL</th>
+            <th>Online</th>
+            <th>IsDeleted</th>
+            <th>Order</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <img src="/@Uploads.BannerImagesUrl/@item.ImageURL"
+                        height="200" width="200" class="img-thumbnail"/>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LinkURL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Online)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDeleted)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Order)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", "Banners", 
+    new { Page = page }),
+    new X.PagedList.Web.Common.PagedListRenderOptions {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+})
